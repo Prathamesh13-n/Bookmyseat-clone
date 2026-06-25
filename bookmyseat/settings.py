@@ -81,7 +81,9 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-DATABASES['default']=dj_database_url.parse('postgresql://django_bookmyshow_skol_user:1Pmk1HqL4XDV1jf6q4oFDHvTA6bGBEf7@dpg-d8to3i9kh4rs73fhtin0-a.virginia-postgres.render.com/django_bookmyshow_skol')
+DATABASE_URL = os.environ.get('DATABASE_URL')
+if DATABASE_URL:
+    DATABASES['default'] = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
 
 AUTH_PASSWORD_VALIDATORS = [
     {'NAME': 'django.contrib.auth.password_validation.UserAttributeSimilarityValidator'},
