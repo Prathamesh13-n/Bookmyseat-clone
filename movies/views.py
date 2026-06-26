@@ -130,15 +130,17 @@ def _build_seat_layout(seats_with_status):
 
 
 def _render_seat_selection(request, theaters, seats, show_date, error=None):
+    seats_with_status = _build_seat_statuses(
+        theaters,
+        seats,
+        show_date,
+        request.user,
+    )
     context = {
         'theaters': theaters,
         'seats': seats,
-        'seats_with_status': _build_seat_statuses(
-            theaters,
-            seats,
-            show_date,
-            request.user,
-        ),
+        'seats_with_status': seats_with_status,
+        'seat_layout': _build_seat_layout(seats_with_status),
         'show_date': show_date.isoformat(),
     }
     if error:
@@ -244,7 +246,6 @@ def book_seats(request, theater_id):
     seats = Seat.objects.filter(theater=theaters)
     show_date = _get_show_date(request)
 
-    # release expired locks before showing seats
     SeatLock.objects.filter(
         is_active=True,
         expires_at__lt=timezone.now()
@@ -532,7 +533,6 @@ def process_payment(request, theater_id):
                     payment_signature=signature,
                 )
 
-                # release seat locks after successful payment
                 for seat_id in selected_seats:
                     try:
                         seat = Seat.objects.get(id=seat_id)
@@ -650,15 +650,12 @@ def admin_dashboard(request):
     """
     from .models import Payment
 
-    # ---- Total Revenue ----
-    # check cache first
     revenue_data = cache.get('dashboard_revenue')
     if not revenue_data:
         today = datetime.now().date()
         week_ago = today - timedelta(days=7)
         month_ago = today - timedelta(days=30)
 
-        # database level aggregation — no dataset loading
         daily_revenue = Payment.objects.filter(
             status='success',
             created_at__date=today
@@ -684,10 +681,8 @@ def admin_dashboard(request):
             'monthly': monthly_revenue,
             'total': total_revenue,
         }
-        # cache for 5 minutes
         cache.set('dashboard_revenue', revenue_data, 300)
 
-    # ---- Most Popular Movies ----
     popular_movies = cache.get('dashboard_popular_movies')
     if not popular_movies:
         popular_movies = Booking.objects.values(
@@ -697,7 +692,6 @@ def admin_dashboard(request):
         ).order_by('-booking_count')[:10]
         cache.set('dashboard_popular_movies', list(popular_movies), 300)
 
-    # ---- Busiest Theaters ----
     busiest_theaters = cache.get('dashboard_busiest_theaters')
     if not busiest_theaters:
         busiest_theaters = Booking.objects.values(
@@ -708,7 +702,6 @@ def admin_dashboard(request):
         ).order_by('-booking_count')[:10]
         cache.set('dashboard_busiest_theaters', list(busiest_theaters), 300)
 
-    # ---- Peak Booking Hours ----
     peak_hours = cache.get('dashboard_peak_hours')
     if not peak_hours:
         peak_hours = Booking.objects.annotate(
@@ -718,7 +711,6 @@ def admin_dashboard(request):
         ).order_by('-count')[:10]
         cache.set('dashboard_peak_hours', list(peak_hours), 300)
 
-    # ---- Cancellation Rates ----
     cancellation_data = cache.get('dashboard_cancellation')
     if not cancellation_data:
         from .models import Payment
@@ -744,7 +736,6 @@ def admin_dashboard(request):
         }
         cache.set('dashboard_cancellation', cancellation_data, 300)
 
-    # ---- Total Stats ----
     total_bookings = Booking.objects.count()
     total_users = Booking.objects.values('user').distinct().count()
     total_movies = Movie.objects.count()
@@ -765,7 +756,6 @@ def admin_dashboard(request):
     return render(request, 'movies/admin_dashboard.html', context)
 
 
-
 @login_required(login_url='/login/')
 def cancel_booking(request, booking_id):
     """
@@ -777,21 +767,17 @@ def cancel_booking(request, booking_id):
     booking = get_object_or_404(Booking, id=booking_id, user=request.user)
 
     try:
-        # release the seat
         seat = booking.seat
         seat.is_booked = False
         seat.save()
 
-        # update payment status to cancelled
         payment = Payment.objects.filter(booking=booking).first()
         if payment:
             payment.status = 'cancelled'
             payment.save()
 
-        # delete the booking
         booking.delete()
 
-        # clear dashboard cache so new data shows immediately
         from django.core.cache import cache
         cache.delete('dashboard_revenue')
         cache.delete('dashboard_popular_movies')
@@ -806,7 +792,6 @@ def cancel_booking(request, booking_id):
         messages.error(request, 'Failed to cancel booking.')
 
     return redirect('profile')
-
 
 
 @login_required(login_url='/login/')
@@ -886,7 +871,6 @@ def process_event_payment(request, event_id):
             return redirect('payment_failed')
 
     return redirect('home')
-
 
 
 def play_list(request):

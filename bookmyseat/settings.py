@@ -9,8 +9,9 @@ SECRET_KEY = os.environ.get(
     'django-insecure-c8aetlj(=vp90n@#yoc^&d(_6ivp(d!bv-4-f!r$lawptjzrwu'
 )
 
-# DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+
+
 def env_list(name, default=''):
     return [value.strip() for value in os.environ.get(name, default).split(',') if value.strip()]
 
@@ -96,7 +97,6 @@ LANGUAGE_CODE = 'en-us'
 TIME_ZONE = 'UTC'
 USE_I18N = True
 USE_TZ = True
-STATIC_URL = 'static/'
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Email Configuration
@@ -134,15 +134,10 @@ LOGGING = {
             'class': 'logging.StreamHandler',
             'formatter': 'verbose',
         },
-        'file': {
-            'class': 'logging.FileHandler',
-            'filename': 'email_logs.log',
-            'formatter': 'verbose',
-        },
     },
     'loggers': {
         'movies.tasks': {
-            'handlers': ['console', 'file'],
+            'handlers': ['console'],
             'level': 'DEBUG',
             'propagate': True,
         },
@@ -158,22 +153,17 @@ STRIPE_WEBHOOK_SECRET = 'whsec_dummy_webhook_secret'
 # Ticket price per seat (in rupees)
 TICKET_PRICE = 250
 
-
 # Cache Configuration — in-memory caching
 CACHES = {
     'default': {
         'BACKEND': 'django.core.cache.backends.locmem.LocMemCache',
         'LOCATION': 'bookmyseat-cache',
-        'TIMEOUT': 300,  # 5 minutes cache
+        'TIMEOUT': 300,
         'OPTIONS': {
             'MAX_ENTRIES': 1000
         }
     }
 }
-
-
-
-
 
 STATIC_URL = '/static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')

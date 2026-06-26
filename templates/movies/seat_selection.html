@@ -53,53 +53,106 @@
             <div class="seat-map-wrapper">
               <div class="seat-map" id="seatMap">
 
-                {% regroup seats_with_status by seat.category as category_groups %}
-                {% for cat in category_groups %}
+                {% for cat in seat_layout %}
 
                 <!-- Category Header -->
                 <div class="category-header">
                   <div class="category-line"></div>
                   <div class="category-title">
-                    {{ cat.grouper|upper }} —
-                    {% with cat.list.0 as first %}₹{{ first.seat.get_price }}{% endwith %}
+                    {{ cat.category|upper }} — ₹{{ cat.price }}
                   </div>
                   <div class="category-line"></div>
                 </div>
 
                 <!-- Rows in this category -->
-                {% regroup cat.list by seat.row_label as row_groups %}
-                {% for row in row_groups %}
+                {% for row in cat.rows %}
                 <div class="seat-row">
-                  <div class="row-label">{{ row.grouper }}</div>
+                  <div class="row-label">{{ row.row_label }}</div>
                   <div class="row-seats">
-                    {% for item in row.list %}
-                    <div class="seat-wrapper">
-                      {% if item.is_booked %}
-                      <div class="seat sold" title="Already Booked">{{ item.seat.seat_number }}</div>
-                      {% elif item.is_locked %}
-                      <div class="seat locked" title="Locked">{{ item.seat.seat_number }}</div>
-                      {% else %}
-                      <input type="checkbox"
-                             name="seats"
-                             value="{{ item.seat.id }}"
-                             class="d-none seat-checkbox"
-                             data-price="{{ item.seat.get_price }}"
-                             id="seat-{{ item.seat.id }}"
-                             onchange="updateSeatCount()">
-                      <label for="seat-{{ item.seat.id }}"
-                             class="seat available seat-{{ item.seat.category }}"
-                             title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
-                        {{ item.seat.seat_number }}
-                      </label>
-                      {% endif %}
+
+                    {% if row.left %}
+                    <div class="seat-block seat-block-left">
+                      {% for item in row.left %}
+                      <div class="seat-wrapper">
+                        {% if item.is_booked %}
+                        <div class="seat sold" title="Already Booked">{{ item.seat.seat_number }}</div>
+                        {% elif item.is_locked %}
+                        <div class="seat locked" title="Locked">{{ item.seat.seat_number }}</div>
+                        {% else %}
+                        <input type="checkbox"
+                               name="seats"
+                               value="{{ item.seat.id }}"
+                               class="d-none seat-checkbox"
+                               data-price="{{ item.seat.get_price }}"
+                               id="seat-{{ item.seat.id }}"
+                               onchange="updateSeatCount()">
+                        <label for="seat-{{ item.seat.id }}"
+                               class="seat available seat-{{ item.seat.category }}"
+                               title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
+                          {{ item.seat.seat_number }}
+                        </label>
+                        {% endif %}
+                      </div>
+                      {% endfor %}
                     </div>
-                    <!-- Aisle gap after seat 9 -->
-                    {% if forloop.counter == 9 %}
                     <div class="aisle"></div>
                     {% endif %}
-                    {% endfor %}
+
+                    <div class="seat-block seat-block-center">
+                      {% for item in row.center %}
+                      <div class="seat-wrapper">
+                        {% if item.is_booked %}
+                        <div class="seat sold" title="Already Booked">{{ item.seat.seat_number }}</div>
+                        {% elif item.is_locked %}
+                        <div class="seat locked" title="Locked">{{ item.seat.seat_number }}</div>
+                        {% else %}
+                        <input type="checkbox"
+                               name="seats"
+                               value="{{ item.seat.id }}"
+                               class="d-none seat-checkbox"
+                               data-price="{{ item.seat.get_price }}"
+                               id="seat-{{ item.seat.id }}"
+                               onchange="updateSeatCount()">
+                        <label for="seat-{{ item.seat.id }}"
+                               class="seat available seat-{{ item.seat.category }}"
+                               title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
+                          {{ item.seat.seat_number }}
+                        </label>
+                        {% endif %}
+                      </div>
+                      {% endfor %}
+                    </div>
+
+                    {% if row.right %}
+                    <div class="aisle"></div>
+                    <div class="seat-block seat-block-right">
+                      {% for item in row.right %}
+                      <div class="seat-wrapper">
+                        {% if item.is_booked %}
+                        <div class="seat sold" title="Already Booked">{{ item.seat.seat_number }}</div>
+                        {% elif item.is_locked %}
+                        <div class="seat locked" title="Locked">{{ item.seat.seat_number }}</div>
+                        {% else %}
+                        <input type="checkbox"
+                               name="seats"
+                               value="{{ item.seat.id }}"
+                               class="d-none seat-checkbox"
+                               data-price="{{ item.seat.get_price }}"
+                               id="seat-{{ item.seat.id }}"
+                               onchange="updateSeatCount()">
+                        <label for="seat-{{ item.seat.id }}"
+                               class="seat available seat-{{ item.seat.category }}"
+                               title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
+                          {{ item.seat.seat_number }}
+                        </label>
+                        {% endif %}
+                      </div>
+                      {% endfor %}
+                    </div>
+                    {% endif %}
+
                   </div>
-                  <div class="row-label">{{ row.grouper }}</div>
+                  <div class="row-label">{{ row.row_label }}</div>
                 </div>
                 {% endfor %}
 
@@ -204,6 +257,12 @@
     color: #aaa;
   }
   .row-seats {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 4px;
+  }
+  .seat-block {
     display: flex;
     align-items: center;
     gap: 4px;
