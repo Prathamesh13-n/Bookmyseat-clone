@@ -1,0 +1,8 @@
+# Local databases and generated runtime files
+*.sqlite3
+*.log
+staticfiles/
+
+# Local secrets
+.env
+.env.*
