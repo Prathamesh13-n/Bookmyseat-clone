@@ -955,3 +955,33 @@ def process_play_payment(request, play_id):
             return redirect('payment_failed')
 
     return redirect('play_list')
+
+
+def seat_status_api(request, theater_id):
+    """
+    Returns current seat statuses as JSON.
+    Used by frontend polling to auto-refresh seat availability
+    without requiring a manual page reload.
+    """
+    from django.http import JsonResponse
+
+    theaters = get_object_or_404(Theater, id=theater_id)
+    seats = Seat.objects.filter(theater=theaters)
+    show_date = _get_show_date(request)
+
+    seats_with_status = _build_seat_statuses(
+        theaters,
+        seats,
+        show_date,
+        request.user if request.user.is_authenticated else None,
+    )
+
+    data = {
+        str(item['seat'].id): {
+            'is_booked': item['is_booked'],
+            'is_locked': item['is_locked'],
+        }
+        for item in seats_with_status
+    }
+
+    return JsonResponse(data)

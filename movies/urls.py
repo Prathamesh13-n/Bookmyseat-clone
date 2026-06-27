@@ -18,4 +18,5 @@ urlpatterns = [
     path('plays/', views.play_list, name='play_list'),
     path('play/<int:play_id>/', views.play_detail, name='play_detail'),
     path('play/<int:play_id>/payment/', views.process_play_payment, name='process_play_payment'),       
+    path('theater/<int:theater_id>/seats/status/', views.seat_status_api, name='seat_status_api'),
 ]

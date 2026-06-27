@@ -17,9 +17,12 @@
               </p>
             </div>
             <div class="d-flex align-items-center gap-2 flex-wrap">
-              <button type="button" class="btn btn-outline-secondary btn-sm format-btn active" onclick="selectFormat(this,'2D')">2D</button>
-              <button type="button" class="btn btn-outline-secondary btn-sm format-btn" onclick="selectFormat(this,'3D')">3D</button>
-              <button type="button" class="btn btn-outline-secondary btn-sm format-btn" onclick="selectFormat(this,'IMAX 3D')">IMAX 3D</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm format-btn active"
+                onclick="selectFormat(this,'2D')">2D</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm format-btn"
+                onclick="selectFormat(this,'3D')">3D</button>
+              <button type="button" class="btn btn-outline-secondary btn-sm format-btn"
+                onclick="selectFormat(this,'IMAX 3D')">IMAX 3D</button>
               <button class="btn btn-outline-primary btn-sm" id="seatCount">0 Tickets</button>
             </div>
           </div>
@@ -79,16 +82,11 @@
                         {% elif item.is_locked %}
                         <div class="seat locked" title="Locked">{{ item.seat.seat_number }}</div>
                         {% else %}
-                        <input type="checkbox"
-                               name="seats"
-                               value="{{ item.seat.id }}"
-                               class="d-none seat-checkbox"
-                               data-price="{{ item.seat.get_price }}"
-                               id="seat-{{ item.seat.id }}"
-                               onchange="updateSeatCount()">
-                        <label for="seat-{{ item.seat.id }}"
-                               class="seat available seat-{{ item.seat.category }}"
-                               title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
+                        <input type="checkbox" name="seats" value="{{ item.seat.id }}" class="d-none seat-checkbox"
+                          data-price="{{ item.seat.get_price }}" id="seat-{{ item.seat.id }}"
+                          onchange="updateSeatCount()">
+                        <label for="seat-{{ item.seat.id }}" class="seat available seat-{{ item.seat.category }}"
+                          title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
                           {{ item.seat.seat_number }}
                         </label>
                         {% endif %}
@@ -106,16 +104,11 @@
                         {% elif item.is_locked %}
                         <div class="seat locked" title="Locked">{{ item.seat.seat_number }}</div>
                         {% else %}
-                        <input type="checkbox"
-                               name="seats"
-                               value="{{ item.seat.id }}"
-                               class="d-none seat-checkbox"
-                               data-price="{{ item.seat.get_price }}"
-                               id="seat-{{ item.seat.id }}"
-                               onchange="updateSeatCount()">
-                        <label for="seat-{{ item.seat.id }}"
-                               class="seat available seat-{{ item.seat.category }}"
-                               title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
+                        <input type="checkbox" name="seats" value="{{ item.seat.id }}" class="d-none seat-checkbox"
+                          data-price="{{ item.seat.get_price }}" id="seat-{{ item.seat.id }}"
+                          onchange="updateSeatCount()">
+                        <label for="seat-{{ item.seat.id }}" class="seat available seat-{{ item.seat.category }}"
+                          title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
                           {{ item.seat.seat_number }}
                         </label>
                         {% endif %}
@@ -133,16 +126,11 @@
                         {% elif item.is_locked %}
                         <div class="seat locked" title="Locked">{{ item.seat.seat_number }}</div>
                         {% else %}
-                        <input type="checkbox"
-                               name="seats"
-                               value="{{ item.seat.id }}"
-                               class="d-none seat-checkbox"
-                               data-price="{{ item.seat.get_price }}"
-                               id="seat-{{ item.seat.id }}"
-                               onchange="updateSeatCount()">
-                        <label for="seat-{{ item.seat.id }}"
-                               class="seat available seat-{{ item.seat.category }}"
-                               title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
+                        <input type="checkbox" name="seats" value="{{ item.seat.id }}" class="d-none seat-checkbox"
+                          data-price="{{ item.seat.get_price }}" id="seat-{{ item.seat.id }}"
+                          onchange="updateSeatCount()">
+                        <label for="seat-{{ item.seat.id }}" class="seat available seat-{{ item.seat.category }}"
+                          title="{{ item.seat.get_category_display }} — ₹{{ item.seat.get_price }}">
                           {{ item.seat.seat_number }}
                         </label>
                         {% endif %}
@@ -164,10 +152,18 @@
 
             <!-- Legend -->
             <div class="legend-bar mt-3">
-              <div class="legend-item"><div class="seat-legend available-legend"></div><span>Available</span></div>
-              <div class="legend-item"><div class="seat-legend selected-legend"></div><span>Selected</span></div>
-              <div class="legend-item"><div class="seat-legend sold-legend"></div><span>Booked</span></div>
-              <div class="legend-item"><div class="seat-legend locked-legend"></div><span>Locked</span></div>
+              <div class="legend-item">
+                <div class="seat-legend available-legend"></div><span>Available</span>
+              </div>
+              <div class="legend-item">
+                <div class="seat-legend selected-legend"></div><span>Selected</span>
+              </div>
+              <div class="legend-item">
+                <div class="seat-legend sold-legend"></div><span>Booked</span>
+              </div>
+              <div class="legend-item">
+                <div class="seat-legend locked-legend"></div><span>Locked</span>
+              </div>
             </div>
 
             <!-- Price Summary -->
@@ -197,7 +193,10 @@
 
 <style>
   /* ── Screen ── */
-  .screen-container { text-align: center; }
+  .screen-container {
+    text-align: center;
+  }
+
   .screen {
     display: inline-block;
     width: 55%;
@@ -207,7 +206,7 @@
     color: #777;
     font-size: 11px;
     letter-spacing: 4px;
-    box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
   }
 
   /* ── Seat map wrapper with scroll ── */
@@ -216,6 +215,7 @@
     padding: 10px 0 6px;
     position: relative;
   }
+
   .seat-map {
     min-width: max-content;
     margin: 0 auto;
@@ -231,7 +231,13 @@
     margin: 10px 0 8px;
     padding: 0 36px;
   }
-  .category-line { flex: 1; height: 1px; background: #e0e0e0; }
+
+  .category-line {
+    flex: 1;
+    height: 1px;
+    background: #e0e0e0;
+  }
+
   .category-title {
     font-size: 11px;
     font-weight: 700;
@@ -248,6 +254,7 @@
     gap: 6px;
     margin-bottom: 5px;
   }
+
   .row-label {
     width: 24px;
     min-width: 24px;
@@ -256,21 +263,30 @@
     font-weight: 700;
     color: #aaa;
   }
+
   .row-seats {
     display: flex;
     align-items: center;
     justify-content: center;
     gap: 4px;
   }
+
   .seat-block {
     display: flex;
     align-items: center;
     gap: 4px;
   }
-  .aisle { width: 20px; flex-shrink: 0; }
+
+  .aisle {
+    width: 20px;
+    flex-shrink: 0;
+  }
 
   /* ── Seat base ── */
-  .seat-wrapper { display: inline-block; }
+  .seat-wrapper {
+    display: inline-block;
+  }
+
   .seat {
     width: 32px;
     height: 32px;
@@ -287,24 +303,72 @@
   }
 
   /* ── Category colors ── */
-  .seat-basic   { border: 1px solid #95a5a6; border-bottom: 3px solid #7f8c8d; color: #7f8c8d; background: #f5f6f7; }
-  .seat-silver  { border: 1px solid #1abc9c; border-bottom: 3px solid #16a085; color: #16a085; background: #f0faf8; }
-  .seat-gold    { border: 1px solid #f1c40f; border-bottom: 3px solid #f39c12; color: #e67e22; background: #fdfbf0; }
-  .seat-premium { border: 1px solid #9b59b6; border-bottom: 3px solid #7d3c98; color: #9b59b6; background: #faf5ff; }
-  .seat-vip     { border: 1px solid #e74c3c; border-bottom: 3px solid #c0392b; color: #c0392b; background: #fdf5f5; }
+  .seat-basic {
+    border: 1px solid #95a5a6;
+    border-bottom: 3px solid #7f8c8d;
+    color: #7f8c8d;
+    background: #f5f6f7;
+  }
 
-  .seat-basic:hover   { background: #7f8c8d; color: white; }
-  .seat-silver:hover  { background: #16a085; color: white; }
-  .seat-gold:hover    { background: #f39c12; color: white; }
-  .seat-premium:hover { background: #9b59b6; color: white; }
-  .seat-vip:hover     { background: #c0392b; color: white; }
+  .seat-silver {
+    border: 1px solid #1abc9c;
+    border-bottom: 3px solid #16a085;
+    color: #16a085;
+    background: #f0faf8;
+  }
+
+  .seat-gold {
+    border: 1px solid #f1c40f;
+    border-bottom: 3px solid #f39c12;
+    color: #e67e22;
+    background: #fdfbf0;
+  }
+
+  .seat-premium {
+    border: 1px solid #9b59b6;
+    border-bottom: 3px solid #7d3c98;
+    color: #9b59b6;
+    background: #faf5ff;
+  }
+
+  .seat-vip {
+    border: 1px solid #e74c3c;
+    border-bottom: 3px solid #c0392b;
+    color: #c0392b;
+    background: #fdf5f5;
+  }
+
+  .seat-basic:hover {
+    background: #7f8c8d;
+    color: white;
+  }
+
+  .seat-silver:hover {
+    background: #16a085;
+    color: white;
+  }
+
+  .seat-gold:hover {
+    background: #f39c12;
+    color: white;
+  }
+
+  .seat-premium:hover {
+    background: #9b59b6;
+    color: white;
+  }
+
+  .seat-vip:hover {
+    background: #c0392b;
+    color: white;
+  }
 
   /* Selected = blue outline */
-  .seat-checkbox:checked + .seat-basic,
-  .seat-checkbox:checked + .seat-silver,
-  .seat-checkbox:checked + .seat-gold,
-  .seat-checkbox:checked + .seat-premium,
-  .seat-checkbox:checked + .seat-vip {
+  .seat-checkbox:checked+.seat-basic,
+  .seat-checkbox:checked+.seat-silver,
+  .seat-checkbox:checked+.seat-gold,
+  .seat-checkbox:checked+.seat-premium,
+  .seat-checkbox:checked+.seat-vip {
     background: #e8f0fe;
     color: #0d6efd;
     border: 2px solid #0d6efd;
@@ -313,8 +377,21 @@
     transform: scale(1.08);
   }
 
-  .seat.sold   { background: #e9ecef; border-color: #dee2e6; border-bottom-color: #adb5bd; color: #adb5bd; cursor: not-allowed; }
-  .seat.locked { background: #fff3cd; border-color: #ffc107; border-bottom-color: #e0a800; color: #856404; cursor: not-allowed; }
+  .seat.sold {
+    background: #e9ecef;
+    border-color: #dee2e6;
+    border-bottom-color: #adb5bd;
+    color: #adb5bd;
+    cursor: not-allowed;
+  }
+
+  .seat.locked {
+    background: #fff3cd;
+    border-color: #ffc107;
+    border-bottom-color: #e0a800;
+    color: #856404;
+    cursor: not-allowed;
+  }
 
   /* ── Legend ── */
   .legend-bar {
@@ -326,12 +403,41 @@
     background: #f8f9fa;
     border-radius: 8px;
   }
-  .legend-item { display: flex; align-items: center; gap: 7px; font-size: 12px; color: #555; }
-  .seat-legend { width: 22px; height: 22px; border-radius: 4px; border: 1px solid #ddd; }
-  .available-legend { background: #f5f6f7; border: 1px solid #95a5a6; }
-  .selected-legend  { background: #e8f0fe; border: 2px solid #0d6efd; }
-  .sold-legend      { background: #e9ecef; border-color: #dee2e6; }
-  .locked-legend    { background: #fff3cd; border-color: #ffc107; }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    font-size: 12px;
+    color: #555;
+  }
+
+  .seat-legend {
+    width: 22px;
+    height: 22px;
+    border-radius: 4px;
+    border: 1px solid #ddd;
+  }
+
+  .available-legend {
+    background: #f5f6f7;
+    border: 1px solid #95a5a6;
+  }
+
+  .selected-legend {
+    background: #e8f0fe;
+    border: 2px solid #0d6efd;
+  }
+
+  .sold-legend {
+    background: #e9ecef;
+    border-color: #dee2e6;
+  }
+
+  .locked-legend {
+    background: #fff3cd;
+    border-color: #ffc107;
+  }
 
   /* ── Price summary ── */
   .price-summary {
@@ -343,11 +449,25 @@
     border-left: 4px solid #0d6efd;
     font-size: 14px;
   }
-  .total-row { border-top: 1px solid #dee2e6; padding-top: 8px; margin-top: 8px; }
+
+  .total-row {
+    border-top: 1px solid #dee2e6;
+    padding-top: 8px;
+    margin-top: 8px;
+  }
 
   /* ── Format buttons ── */
-  .format-btn { border-radius: 4px; font-size: 12px; font-weight: 600; }
-  .format-btn.active { background: #0d6efd; color: white; border-color: #0d6efd; }
+  .format-btn {
+    border-radius: 4px;
+    font-size: 12px;
+    font-weight: 600;
+  }
+
+  .format-btn.active {
+    background: #0d6efd;
+    color: white;
+    border-color: #0d6efd;
+  }
 
   /* ── Zoom controls ── */
   .zoom-controls {
@@ -359,8 +479,10 @@
     gap: 4px;
     z-index: 10;
   }
+
   .zoom-controls button {
-    width: 30px; height: 30px;
+    width: 30px;
+    height: 30px;
     border: 1px solid #dee2e6;
     background: white;
     border-radius: 6px;
@@ -368,11 +490,18 @@
     line-height: 1;
     cursor: pointer;
     color: #555;
-    box-shadow: 0 1px 4px rgba(0,0,0,0.1);
+    box-shadow: 0 1px 4px rgba(0, 0, 0, 0.1);
   }
-  .zoom-controls button:hover { background: #f0f4ff; color: #0d6efd; border-color: #0d6efd; }
 
-  .seat-map-wrapper { position: relative; }
+  .zoom-controls button:hover {
+    background: #f0f4ff;
+    color: #0d6efd;
+    border-color: #0d6efd;
+  }
+
+  .seat-map-wrapper {
+    position: relative;
+  }
 </style>
 
 <script>
@@ -407,6 +536,40 @@
     btn.classList.add('active');
     document.getElementById('formatField').value = format;
   }
+
+  /* ── Live seat status polling ── */
+  const SEAT_STATUS_URL = "{% url 'seat_status_api' theaters.id %}?date={{ show_date }}";
+
+  async function refreshSeatStatuses() {
+    try {
+      const response = await fetch(SEAT_STATUS_URL);
+      if (!response.ok) return;
+      const data = await response.json();
+
+      Object.keys(data).forEach(seatId => {
+        const status = data[seatId];
+        const checkbox = document.getElementById('seat-' + seatId);
+        const wrapper = checkbox ? checkbox.closest('.seat-wrapper') : null;
+
+        if (!wrapper) return;
+
+        // If seat just became booked or locked by someone else,
+        // and it's not currently checked by this user, replace it.
+        if ((status.is_booked || status.is_locked) && !checkbox.checked) {
+          const label = wrapper.querySelector('label');
+          const seatNumber = label ? label.textContent.trim() : '';
+          const newClass = status.is_booked ? 'sold' : 'locked';
+          const newTitle = status.is_booked ? 'Already Booked' : 'Locked';
+
+          wrapper.innerHTML = `<div class="seat ${newClass}" title="${newTitle}">${seatNumber}</div>`;
+        }
+      });
+    } catch (err) {
+      console.error('Seat status refresh failed:', err);
+    }
+  }
+
+  setInterval(refreshSeatStatuses, 5000);
 </script>
 
 {% endblock %}
