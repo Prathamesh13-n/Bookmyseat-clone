@@ -9,8 +9,8 @@ SECRET_KEY = os.environ.get(
     'django-insecure-c8aetlj(=vp90n@#yoc^&d(_6ivp(d!bv-4-f!r$lawptjzrwu'
 )
 
-# DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-DEBUG = True
+DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+# DEBUG = True
 
 def env_list(name, default=''):
     return [value.strip() for value in os.environ.get(name, default).split(',') if value.strip()]
