@@ -9,8 +9,8 @@ SECRET_KEY = os.environ.get(
     'django-insecure-c8aetlj(=vp90n@#yoc^&d(_6ivp(d!bv-4-f!r$lawptjzrwu'
 )
 
-DEBUG = os.environ.get('DEBUG', 'False') == 'True'
-# DEBUG = True
+# DEBUG = os.environ.get('DEBUG', 'False') == 'True'
+DEBUG = True
 
 def env_list(name, default=''):
     return [value.strip() for value in os.environ.get(name, default).split(',') if value.strip()]
@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
     }
 }
-DATABASES['default'] = dj_database_url.parse('postgresql://bookmyseat_gkg1_user:pxsIWOyFGLKAnrRQSRENKLuw7NJ5uNt4@dpg-d8vsfd3eo5us73bjrer0-a.virginia-postgres.render.com/bookmyseat_gkg1llll')
+# DATABASES['default'] = dj_database_url.parse('postgresql://bookmyseat_gkg1_user:pxsIWOyFGLKAnrRQSRENKLuw7NJ5uNt4@dpg-d8vsfd3eo5us73bjrer0-a.virginia-postgres.render.com/bookmyseat_gkg1llll')
 DATABASE_URL = os.environ.get('DATABASE_URL')
 if DATABASE_URL:
     DATABASES['default'] = dj_database_url.parse(DATABASE_URL, conn_max_age=600)
