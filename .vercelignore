@@ -1,7 +1,8 @@
 # Local databases and generated runtime files
 *.sqlite3
 *.log
-staticfiles/
+.venv/
+__pycache__/
 
 # Local secrets
 .env
